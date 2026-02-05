@@ -4,78 +4,6 @@ ATELIER FROM IMAGE TO CLUSTER
 L’idée en 30 secondes : Cet atelier consiste à **industrialiser le cycle de vie d’une application** simple en construisant une **image applicative Nginx** personnalisée avec **Packer**, puis en déployant automatiquement cette application sur un **cluster Kubernetes** léger (K3d) à l’aide d’**Ansible**, le tout dans un environnement reproductible via **GitHub Codespaces**.
 L’objectif est de comprendre comment des outils d’Infrastructure as Code permettent de passer d’un artefact applicatif maîtrisé à un déploiement cohérent et automatisé sur une plateforme d’exécution.
 
----
-
-## Utilisation rapide (One-Click Deployment)
-
-```bash
-make all
-```
-
-Cette commande unique effectue automatiquement :
-1. Installation de K3d, Packer et Ansible
-2. Création du cluster Kubernetes (1 master + 2 workers)
-3. Build de l'image Docker personnalisée avec Packer
-4. Import de l'image dans K3d
-5. Déploiement de l'application via Ansible
-6. Configuration du port-forward
-
-Ensuite, allez dans l'onglet **PORTS** du Codespace et ouvrez le port **8080**.
-
----
-
-## Commandes disponibles
-
-| Commande | Description |
-|----------|-------------|
-| `make all` | Déploiement complet automatisé |
-| `make install` | Installe K3d, Packer, Ansible |
-| `make cluster` | Crée le cluster K3d |
-| `make build` | Build l'image avec Packer |
-| `make import` | Importe l'image dans K3d |
-| `make deploy` | Déploie l'app avec Ansible |
-| `make port-forward` | Active le port-forward sur 8080 |
-| `make status` | Affiche l'état du cluster et pods |
-| `make clean` | Supprime le cluster et l'image |
-| `make help` | Affiche l'aide |
-
----
-
-## Structure du projet
-
-```
-Image_to_Cluster/
-├── index.html                 # Page web personnalisée
-├── Makefile                   # Automatisation complète
-├── packer/
-│   └── nginx.pkr.hcl          # Template Packer pour l'image Docker
-├── ansible/
-│   ├── deploy.yml             # Playbook de déploiement
-│   └── k8s/
-│       └── deployment.yml     # Manifests Kubernetes
-└── README.md
-```
-
----
-
-## Architecture technique
-
-![Architecture cible](Architecture_cible.png)
-
-**Flux de travail :**
-1. **Packer** construit une image Docker Nginx personnalisée embarquant `index.html`
-2. L'image est importée dans le registre interne de **K3d**
-3. **Ansible** déploie les manifests Kubernetes (Deployment + Service)
-4. L'application est accessible via **NodePort** sur le port 8080
-
----
-
-## Contributeurs
-
-- Steve
-
----
-
 -------------------------------------------------------------------------------------------------------
 Séquence 1 : Codespace de Github
 -------------------------------------------------------------------------------------------------------
@@ -185,6 +113,8 @@ Cette solution automatise tout le pipeline CI/CD :
 | `make status` | Vérifier si tout va bien |
 | `make clean` | Tout effacer pour recommencer |
 | `make port-forward` | Réactiver l'accès si le port 8080 est perdu |
+
+
 
 ---------------------------------------------------
 Evaluation
